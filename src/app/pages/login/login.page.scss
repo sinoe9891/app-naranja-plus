@@ -1,0 +1,36 @@
+.login-content {
+  --background: var(--ion-background-color);
+}
+
+.login-wrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+//   min-height: 100vh;
+  padding: 0 16px;
+  box-sizing: border-box;
+}
+
+.logo-container {
+  margin-bottom: 24px;
+  text-align: center;
+}
+
+.logo {
+  width: 200px;
+  max-width: 100%;
+}
+
+.login-card {
+  width: 100%;
+  max-width: 360px;
+  padding: 12px;
+}
+.form-container {
+  width: 100%;
+  max-width: 360px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}

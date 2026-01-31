@@ -1,0 +1,30 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Cargar Códigos</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <!-- Selector de evento -->
+  <ion-item>
+    <ion-label>Evento</ion-label>
+    <ion-select [(ngModel)]="eventoSeleccionado" placeholder="Selecciona un evento">
+      <ion-select-option *ngFor="let ev of eventos" [value]="ev.id">
+        {{ ev.nombre }}
+      </ion-select-option>
+    </ion-select>
+  </ion-item>
+
+  <!-- Botón para cargar desde Firebase -->
+  <ion-button expand="block" (click)="cargarBoletosDesdeFirebase()" [disabled]="!eventoSeleccionado">
+    Cargar desde Firebase
+  </ion-button>
+
+  <!-- Botón para cargar desde JSON -->
+  <ion-button expand="block" color="secondary" (click)="fileInput.click()" [disabled]="!eventoSeleccionado">
+    Cargar desde JSON
+  </ion-button>
+
+  <!-- Input oculto para cargar archivo JSON -->
+  <input type="file" #fileInput hidden (change)="onFileChosen($event)" accept=".json" />
+</ion-content>

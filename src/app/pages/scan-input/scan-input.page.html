@@ -1,0 +1,37 @@
+<ion-header [translucent]="true">
+	<ion-toolbar color="primary">
+	  <ion-buttons slot="start">
+		<ion-back-button (click)="irAtras($event)"></ion-back-button>
+	  </ion-buttons>
+	  <ion-title>{{ eventname }}</ion-title>
+	</ion-toolbar>
+  </ion-header>
+  
+  <ion-content (click)="onContainerClick()" [fullscreen]="false">
+	<ion-refresher slot="fixed" (ionRefresh)="handleRefresh($event)">
+	  <ion-refresher-content></ion-refresher-content>
+	</ion-refresher>
+  
+	<ion-row class="ion-padding">
+	  <ion-col size="12">
+		<ion-input
+		  #in
+		  autofocus
+		  type="text"
+		  placeholder="Escanea un código o ingresa manualmente"
+		  [(ngModel)]="texto"
+		  (ionInput)="onTextoChange()">
+		</ion-input>
+	  </ion-col>
+	</ion-row>
+  
+	<ion-row class="ion-padding">
+	  <ion-col>
+		<ion-button expand="block" (click)="eventos()" color="medium" fill="outline">
+		  <ion-icon slot="start" name="arrow-back-outline"></ion-icon>
+		  Regresar
+		</ion-button>
+	  </ion-col>
+	</ion-row>
+  </ion-content>
+  

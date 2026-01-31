@@ -1,0 +1,60 @@
+<ion-header [translucent]="true">
+  <ion-toolbar color="primary">
+    <ion-title>{{ eventname }}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <div class="body">
+    <div class="container">
+
+      <!-- Resultado del escaneo -->
+      <div *ngIf="!status" style="text-align:center;">
+        <h3 style="font-weight: bold;">{{ texto }}</h3>
+        <div class="img-result">
+          <img [src]="estado ? '/assets/icon/valido.svg' : '/assets/icon/invalido.svg'" width="150">
+        </div>
+      </div>
+
+      <!-- Botones -->
+      <div class="ion-margin-top" *ngIf="!status">
+        <ion-button expand="block" color="primary" (click)="newscan()">Nuevo Escaneo</ion-button>
+        <ion-button expand="block" color="success" (click)="scanagain()">Verificar Escaneo</ion-button>
+        <ion-button expand="block" color="medium" *ngIf="info" (click)="verInfo()">
+          {{ estado ? 'Ver información del boleto' : 'Ver estado del boleto' }}
+        </ion-button>
+        <ion-button expand="block" color="danger" (click)="volveramenu()">Volver a menú</ion-button>
+      </div>
+
+      <!-- Detalles -->
+      <div *ngIf="status && info" class="ion-margin-top">
+        <ion-card>
+          <ion-card-content>
+
+            <p *ngIf="getUsedAt(info) as usedAt">
+              <strong>Hora usado:</strong>
+              {{ calcularDiaSemana(usedAt) }},
+              {{ calcularDia(usedAt) }} de {{ calcularMes(usedAt) }} del
+              {{ calcularAnio(usedAt) }} a las {{ calcularHora(usedAt) }}
+            </p>
+
+            <p><strong>Validado por:</strong> {{ info.scannedBy || info.usuario || userEmail }}</p>
+            <p><strong>Ubicación/Zona:</strong> {{ info.zone || info.ubicacion || 'N/D' }}</p>
+            <p><strong>Tipo/Zona:</strong> {{ info.name || info.tipoboleto?.localidad || info.zone || 'N/D' }}</p>
+            <p><strong>Número de ticket:</strong> {{ info.ticketNumber || idticket || info.qrValue || info.id || '' }}</p>
+
+          </ion-card-content>
+        </ion-card>
+
+        <ion-button expand="block" color="warning" (click)="verInfo()">
+          Ocultar detalles
+        </ion-button>
+
+        <ion-button expand="block" color="primary" (click)="newscan()">
+          Nuevo Escaneo
+        </ion-button>
+      </div>
+
+    </div>
+  </div>
+</ion-content>

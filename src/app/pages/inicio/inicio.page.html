@@ -1,0 +1,75 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>Inicio</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="false">
+  <ion-refresher slot="fixed" (ionRefresh)="handleRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+
+  <div style="padding: 24px; text-align: center;">
+    <h2>{{ saludo }}</h2>
+
+    <p style="font-size: 18px;">
+      👋 Bienvenido/a <strong>{{ nombreUsuario }}</strong>
+    </p>
+
+    <ion-button expand="block" (click)="irAEventos()">🎫 Ir a eventos</ion-button>
+  </div>
+
+  <div style="padding: 16px;">
+    <h3 style="text-align: left;">📅 Eventos próximos</h3>
+
+    <ion-card *ngFor="let event of eventosProximos">
+      <img
+        *ngIf="event['images']?.sliderImage || event['images']?.frontImage"
+        [src]="event['images']?.sliderImage || event['images']?.frontImage"
+        alt="Portada del evento"
+        style="width: 100%; height: 160px; object-fit: cover;"
+      />
+
+      <ion-card-header>
+        <ion-card-title>
+          {{ event['name'] || event['nombreevento'] || 'Evento' }}
+        </ion-card-title>
+
+        <ion-card-subtitle *ngIf="event['eventDate'] || event['fechaevento']">
+          {{ (event['eventDate'] || event['fechaevento']) | date:'fullDate' }}
+        </ion-card-subtitle>
+
+        <!-- ✅ LUGAR (venue + ciudad + address line 1 si existe) -->
+        <ion-card-subtitle
+          *ngIf="event['venue']?.name || event['venue']?.address?.city || event['venue']?.address?.AddressLine1"
+        >
+          Lugar:
+          <span *ngIf="event['venue']?.name">{{ event['venue']?.name }}</span>
+          <span *ngIf="event['venue']?.address?.city">
+            <span *ngIf="event['venue']?.name"> - </span>
+            {{ event['venue']?.address?.city }}
+          </span>
+
+          <span *ngIf="event['venue']?.address?.AddressLine1">
+            <span *ngIf="event['venue']?.name || event['venue']?.address?.city"> | </span>
+            {{ event['venue']?.address?.AddressLine1 }}
+          </span>
+        </ion-card-subtitle>
+      </ion-card-header>
+
+      <ion-button expand="block" [routerLink]="['/scanner', event.id]">
+        Escanear
+      </ion-button>
+    </ion-card>
+
+    <p
+      *ngIf="eventosProximos.length === 0"
+      style="text-align: center; margin-top: 20px; font-size: 16px; color: #666;"
+    >
+      No tienes eventos próximos disponibles.
+    </p>
+  </div>
+</ion-content>

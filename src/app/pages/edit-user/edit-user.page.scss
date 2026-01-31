@@ -1,0 +1,41 @@
+.section-title {
+  text-align: center;
+  padding: 2rem;
+  padding-bottom: 2rem;
+  margin-bottom: 5rem;
+  //   font-size: 1.3rem;
+  //   color: var(--ion-color-light);
+  font-weight: bold;
+}
+
+.event-block {
+  margin-top: 1rem;
+  margin-bottom: 1.5rem;
+  padding-bottom: 2rem;
+  border-bottom: 1px solid var(--ion-color-medium-shade);
+  text-align: center;
+}
+
+.event-text {
+  margin-bottom: 0.8rem;
+}
+
+.event-title {
+  font-weight: 700;
+  font-size: 1.2rem;
+  //   color: var(--ion-color-light);
+  margin-bottom: 0.3rem;
+}
+
+.event-ubicaciones {
+  font-weight: 600;
+  //   color: var(--ion-color-light);
+  font-size: 0.85rem; /* Más pequeña */
+  margin-bottom: 0.7rem;
+}
+
+.event-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+}

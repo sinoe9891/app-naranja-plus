@@ -1,0 +1,26 @@
+<ion-content [fullscreen]="false" class="login-content" scroll-y="true">
+	<div class="login-wrapper">
+
+		<!-- Logo -->
+		<div class="logo-container">
+			<img [src]="logoSrc" alt="Logo" class="logo" />
+		</div>
+
+		<!-- Formulario -->
+		<ion-card class="login-card">
+			<ion-card-content class="form-container">
+				<ion-input fill="outline" [(ngModel)]="email" placeholder="Correo electrónico" type="email">
+				</ion-input>
+
+				<ion-input fill="outline" [(ngModel)]="password" placeholder="Contraseña" type="password">
+				</ion-input>
+
+				<ion-button expand="block" (click)="login()">
+					INGRESAR
+				</ion-button>
+			</ion-card-content>
+
+		</ion-card>
+
+	</div>
+</ion-content>

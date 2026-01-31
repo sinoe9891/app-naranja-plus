@@ -1,0 +1,133 @@
+<ion-header>
+	<ion-toolbar color="primary">
+		<ion-buttons slot="start">
+			<ion-menu-button></ion-menu-button>
+		</ion-buttons>
+		<ion-title>🎟️ Ticket Statistics</ion-title>
+	</ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+	<ion-card *ngIf="!esporlote">
+		<ion-card-header>
+			<ion-card-title>
+				<h2>🎫 Tipos de Boletos</h2>
+			</ion-card-title>
+		</ion-card-header>
+		<ion-card-content>
+			<ion-grid>
+				<ion-row>
+					<ion-col><strong>Nombre</strong></ion-col>
+					<ion-col><strong>Cantidad</strong></ion-col>
+				</ion-row>
+				<ion-row *ngFor="let boleto of listaBoletos">
+					<ion-col>{{ boleto["nombretipo"] }}</ion-col>
+					<ion-col>{{ boleto["cantidadtipo"] }}</ion-col>
+				</ion-row>
+			</ion-grid>
+		</ion-card-content>
+	</ion-card>
+
+	<ion-card *ngIf="resumenUsuarios && resumenUsuarios.length > 0">
+		<ion-card-header>
+			<ion-card-title>🎫 Escaneos de Boletos</ion-card-title>
+		</ion-card-header>
+		<ion-card-content>
+			<ion-list>
+				<ion-item *ngFor="let user of resumenUsuarios">
+					<ion-label>
+						<p><strong>{{ user.usuario === 'Desconocido' ? '🕵️‍♂️ Sin usuario' : user.usuario }}</strong>
+						</p>
+						<p>Total escaneados: {{ user.total }}</p>
+						<ul>
+							<li *ngFor="let zona of user.zonas">
+								{{ zona.localidad }}: {{ zona.cantidad }}
+							</li>
+						</ul>
+					</ion-label>
+				</ion-item>
+			</ion-list>
+		</ion-card-content>
+	</ion-card>
+
+	<ion-card *ngIf="resumenZonas && resumenZonas.length > 0">
+		<ion-card-header>
+			<ion-card-title>🎯 Escaneos por Zona</ion-card-title>
+		</ion-card-header>
+		<ion-card-content>
+			<ion-list>
+				<ion-item *ngFor="let zona of resumenZonas">
+					<ion-label>
+						<strong>{{ zona.localidad }}</strong>: {{ zona.cantidad }} escaneos
+					</ion-label>
+				</ion-item>
+			</ion-list>
+		</ion-card-content>
+	</ion-card>
+	<ion-card *ngIf="resumenUsuariosBandas && resumenUsuariosBandas.length > 0">
+		<ion-card-header>
+			<ion-card-title>🎫 Escaneo de Bandas</ion-card-title>
+		</ion-card-header>
+		<ion-card-content>
+			<ion-list>
+				<ion-item *ngFor="let user of resumenUsuariosBandas">
+					<ion-label>
+						<p><strong>{{ user.usuario }}</strong></p>
+						<p>Total escaneos: {{ user.total }}</p>
+						<ul>
+							<li *ngFor="let zona of user.zonas">
+								{{ zona.localidad }}: {{ zona.cantidad }}
+							</li>
+						</ul>
+					</ion-label>
+				</ion-item>
+			</ion-list>
+		</ion-card-content>
+	</ion-card>
+	<ion-card *ngIf="zonasPorUbicacion.length > 0">
+		<ion-card-header>
+			<ion-card-title>📍 Boletos Escaneados por Zona (Ubicación)</ion-card-title>
+		</ion-card-header>
+		<ion-card-content>
+			<ion-list>
+				<ion-item *ngFor="let zona of zonasPorUbicacion">
+					<ion-label>
+						<strong>{{ zona.ubicacion }}</strong>: {{ zona.cantidad }} boletos
+					</ion-label>
+				</ion-item>
+			</ion-list>
+		</ion-card-content>
+	</ion-card>
+	<div *ngIf="esporlote">
+		<p>Total Escaneados: {{ lotedocumentosescaneados }}</p>
+		<p>Bandas Escaneadas: {{ bandasEscaneadas }}</p>
+		<p>Boletos Escaneados: {{ boletosEscaneados }}</p>
+		<p>Total Restantes: {{ restantesTotales }}</p>
+		<p>Documentos Generados: {{ lotedocumentosgenerados }}</p>
+
+		<!-- Mostrar mensajes según tipo de escaneo -->
+		<div *ngIf="bandasEscaneadas > 0 && boletosEscaneados === 0">
+			<p>📛 Solo se han escaneado bandas en este evento.</p>
+		</div>
+		<div *ngIf="boletosEscaneados > 0 && bandasEscaneadas === 0">
+			<p>🎟️ Solo se han escaneado boletos individuales en este evento.</p>
+		</div>
+		<div *ngIf="boletosEscaneados > 0 && bandasEscaneadas > 0">
+			<p>✅ Se han escaneado tanto boletos como bandas.</p>
+		</div>
+
+		<br><br>
+		<!-- <p style="text-align: center; font-weight: 800;">
+			LOS DATOS YA SE ACTUALIZAN AUTOMÁTICAMENTE. FAVOR NO USAR EL BOTÓN DE ABAJO HASTA AL FINAL
+		</p>
+		<br><br>
+		<div style="text-align: center;">
+			<ion-button (click)="datadocumentos()">Verificar Datos Documentos</ion-button>
+			<ion-button (click)="dataescaneado()">Verificar Datos Escaneados</ion-button>
+		</div> -->
+		<!-- <p *ngIf="loteultimaverificacion > 0">
+			Datos última vez verificado:
+			{{ loteultimaverificacion | date:'dd/MM/yyyy h:mm:ss a' }}
+		</p> -->
+	</div>
+</ion-content>

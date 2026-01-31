@@ -1,0 +1,43 @@
+.perfil {
+	display: flex;
+	align-items: center;
+	gap: 10px;
+	margin-bottom: 20px;
+  }
+  
+  .name-profile {
+	font-weight: bold;
+	font-size: 16px;
+  }
+  
+  .box-bottom {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	border: 2px solid #ccc;
+	border-radius: 12px;
+	padding: 16px;
+	transition: all 0.3s ease;
+	background: #f7f7f7;
+	cursor: pointer;
+	text-align: center;
+  
+	&:hover {
+	  border-color: #3880ff;
+	  background-color: #e6f0ff;
+	}
+  }
+  
+  .box-img img {
+	width: 60px;
+	height: 60px;
+	object-fit: contain;
+	margin-bottom: 8px;
+  }
+  
+  .bottom {
+	font-size: 15px;
+	color: #222;
+	font-weight: 500;
+  }
+  

@@ -1,0 +1,78 @@
+✅ Prompt para ChatGPT sobre el proyecto Naranja Scanner PLUS
+Hola ChatGPT, estoy trabajando en una aplicación móvil híbrida llamada Naranja Scanner PLUS, desarrollada con Ionic + Angular (standalone components) + Capacitor y usando Firebase Firestore como backend en tiempo real.
+
+Esta app está diseñada para la gestión de usuarios, eventos, escaneo de boletos y bandas, y generación de estadísticas en tiempo real.
+
+Contexto clave del proyecto:
+
+Framework: Angular 19 + Ionic 8 (standalone)
+
+Backend: Firebase Firestore
+
+Persistencia local: Capacitor Storage
+
+Plataforma: Android (compilada con ionic capacitor build android)
+
+Modo claro/oscuro con almacenamiento de preferencia
+
+Uso de servicios personalizados (ej. BigDataService, UserService, EventsService)
+
+Gestión de roles: superadmin, cliente, promotor, scanning
+
+Páginas principales:
+
+inicio.page.ts
+Pantalla principal con bienvenida y eventos asignados al usuario. Usa Firestore + Auth + Storage. Filtra eventos en tiempo real.
+
+usuarios.page.ts
+Lista de usuarios con sus roles y correos. Usa userService. Incluye búsqueda y navegación a edición.
+
+edit-user.page.ts
+Edición detallada de un usuario. Asigna eventos y sus ubicaciones mediante alerts y guarda en Firestore.
+
+configuracion.page.ts
+Configuración del usuario actual. Permite editar nombre/apellido y seleccionar modo claro/oscuro con persistencia local.
+
+statistics.page.ts
+Genera reportes dinámicos de escaneos (boletos y bandas) por zona, usuario y ubicación. Usa Google Charts.
+
+scan-input.page.ts
+Entrada de escaneo QR. Valida códigos, registra uso, actualiza Firestore y muestra mensajes en tiempo real.
+
+zonas.page.ts
+Administra zonas por recinto y sala. Agrega nuevas zonas y agrupa visualmente.
+
+events.page.ts
+Pantalla donde se listan eventos asignados al usuario con acceso a escaneo o métricas.
+
+Servicios principales:
+
+auth.service.ts → Gestiona autenticación y sesión de usuario actual.
+
+user.service.ts → Obtiene datos y roles desde Firestore.
+
+events.service.ts → Consulta eventos desde Firestore en tiempo real.
+
+big-data.service.ts → Usa funciones complejas para generar estadísticas, con loading y helpers.
+
+Interfaz clave:
+
+evento.interface.ts → Define estructura de los eventos, incluyendo portada, fecha, ID, nombre, etc.
+
+user.interface.ts → Define estructura de usuarios: nombre, correo, estado, eventos asignados.
+
+Peticiones que puedes esperar de mí:
+
+Explicaciones detalladas de cómo se vinculan archivos entre sí.
+
+Soluciones a errores de compilación o standalone imports.
+
+Refactorización para mejorar modularidad, separación de responsabilidades o rendimiento.
+
+Ideas para mejorar la UX con Ionic.
+
+Revisión de lógica de escaneo, guardado o validación en tiempo real.
+
+Apoyo para sincronización offline/online, permisos, toast/alert y otros flujos.
+
+Siempre responde tomando en cuenta el stack actual (Angular standalone, Capacitor, Firebase, Ionic) y evita sugerencias de dependencias obsoletas o incompatibles.

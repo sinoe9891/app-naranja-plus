@@ -1,0 +1,64 @@
+<ion-header>
+	<ion-toolbar color="primary">
+		<ion-buttons slot="start">
+			<ion-menu-button></ion-menu-button>
+		</ion-buttons>
+		<ion-title>Configuración</ion-title>
+	</ion-toolbar>
+</ion-header>
+
+
+<ion-content class="ion-padding">
+	<form [formGroup]="userForm">
+		<ion-item>
+			<ion-label position="floating">Nombre</ion-label>
+			<ion-input formControlName="name"></ion-input>
+		</ion-item>
+
+		<ion-item>
+			<ion-label position="floating">Apellido</ion-label>
+			<ion-input formControlName="lastname"></ion-input>
+		</ion-item>
+
+		<ion-item>
+			<ion-label position="floating">Correo</ion-label>
+			<!-- Quita disabled aquí porque ya está deshabilitado en el FormControl -->
+			<ion-input formControlName="correo" type="email"></ion-input>
+		</ion-item>
+
+		<ion-text color="danger" *ngIf="userForm.get('correo')?.invalid && userForm.get('correo')?.touched">
+			<small *ngIf="userForm.get('correo')?.errors?.['required']">Campo obligatorio.</small>
+			<small *ngIf="userForm.get('correo')?.errors?.['email']">Formato inválido.</small>
+		</ion-text>
+		<ion-item lines="full" button detail (click)="openCargaCodigos()">
+			<ion-icon slot="start" name="download"></ion-icon>
+			<ion-label>Cargar Códigos</ion-label>
+		</ion-item>
+		<!-- Estado con ion-select -->
+		<ion-item>
+			<ion-label>Estado</ion-label>
+			<ion-select formControlName="estado">
+				<ion-select-option [value]="true">Activo</ion-select-option>
+				<ion-select-option [value]="false">Inactivo</ion-select-option>
+			</ion-select>
+		</ion-item>
+
+		<!-- Tema (modo oscuro) con ion-select -->
+		<ion-item class="ion-margin-top">
+			<ion-label>Tema</ion-label>
+			<ion-select formControlName="theme" (ionChange)="onThemeChange($event)">
+				<ion-select-option [value]="false">Claro</ion-select-option>
+				<ion-select-option [value]="true">Oscuro</ion-select-option>
+			</ion-select>
+		</ion-item>
+
+
+		<ion-button expand="block" color="primary" [disabled]="userForm.invalid || isDisabled" (click)="updateUser()">
+			Guardar Cambios
+		</ion-button>
+	</form>
+
+	<ion-text color="medium">
+		<p class="ion-text-center">Versión {{ VersionNumber }}</p>
+	</ion-text>
+</ion-content>

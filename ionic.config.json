@@ -1,0 +1,7 @@
+{
+  "name": "Naranja Scanner PLUS",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular-standalone"
+}

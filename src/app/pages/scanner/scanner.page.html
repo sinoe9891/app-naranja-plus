@@ -1,0 +1,85 @@
+<ion-header>
+	<ion-toolbar color="primary">
+		<ion-buttons slot="start">
+			<ion-back-button></ion-back-button>
+		</ion-buttons>
+		<ion-title>{{ eventname }}</ion-title>
+	</ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+	<div style="text-align: center; margin-bottom: 16px;">
+		<p style="font-size: 16px;">
+			Selecciona el tipo de código que deseas escanear según el control que estás realizando.
+			Puedes escanear <strong>bandas, boletos o QR generales</strong> del evento.
+		</p>
+	</div>
+	<form>
+
+		<ion-row>
+			<ion-col>
+				<a (click)="scanearScanner('ticket')" *ngIf="primary && !puntoventa && !cliente">
+					<div class="box-bottom">
+						<div class="box-img"><img src="/assets/icon/code-bar.svg" alt=""></div>
+						<div class="bottom">Escanear Boleto</div>
+					</div>
+				</a>
+			</ion-col>
+		</ion-row>
+		<ion-row>
+			<ion-col>
+				<a (click)="scanearScanner('banda')" *ngIf="primary && !puntoventa && !cliente">
+					<div class="box-bottom">
+						<div class="box-img"><img src="/assets/icon/code-band.png" alt=""></div>
+						<div class="bottom">Escanear Banda</div>
+					</div>
+				</a>
+			</ion-col>
+		</ion-row>
+
+
+		<!-- <ion-row>
+		<ion-col>
+		  <a (click)="scanCode()" *ngIf="primary && !puntoventa && !cliente">
+			<div class="box-bottom">
+			  <div class="box-img"><img src="/assets/icon/code-qr.svg" alt=""></div>
+			  <div class="bottom">Escanear con Cámara</div>
+			</div>
+		  </a>
+		</ion-col>
+	  </ion-row> -->
+
+		<ion-row>
+			<ion-col>
+				<a (click)="analitics()" *ngIf="(super && primary) || (cliente && primary)">
+					<div class="box-bottom">
+						<div class="box-img"><img src="/assets/icon/estadisticas.png" alt=""></div>
+						<div class="bottom">Ir a Estadísticas</div>
+					</div>
+				</a>
+			</ion-col>
+		</ion-row>
+
+		<!-- <ion-row>
+			<ion-col>
+				<a (click)="scanearScanner('general')" *ngIf="primary && !puntoventa && !cliente">
+					<div class="box-bottom">
+						<div class="box-img"><img src="/assets/icon/code-qr.svg" alt="Escanear"></div>
+						<div class="bottom">Escanear</div>
+					</div>
+				</a>
+			</ion-col>
+		</ion-row> -->
+
+		<ion-row>
+			<ion-col>
+				<ion-button color="medium" expand="block" fill="outline" (click)="eventos()">
+					<ion-icon slot="start" name="arrow-back-outline"></ion-icon>
+					Regresar
+				</ion-button>
+			</ion-col>
+		</ion-row>
+
+
+	</form>
+</ion-content>

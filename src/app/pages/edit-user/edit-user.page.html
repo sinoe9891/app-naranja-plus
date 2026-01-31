@@ -1,0 +1,86 @@
+<ion-header>
+	<ion-toolbar color="primary">
+		<ion-buttons slot="start">
+			<ion-back-button defaultHref="/usuarios"></ion-back-button>
+		</ion-buttons>
+		<ion-title>Editar Usuario</ion-title>
+	</ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+	<form [formGroup]="userForm">
+		<!-- Nombre -->
+		<ion-item>
+			<ion-label position="floating">Nombre</ion-label>
+			<ion-input type="text" formControlName="name"></ion-input>
+		</ion-item>
+
+		<!-- Apellido -->
+		<ion-item class="ion-margin-top">
+			<ion-label position="floating">Apellido</ion-label>
+			<ion-input type="text" formControlName="lastname"></ion-input>
+		</ion-item>
+
+		<!-- Correo electrónico (deshabilitado) -->
+		<ion-item class="ion-margin-top">
+			<ion-label position="floating">Correo electrónico</ion-label>
+			<ion-input type="email" formControlName="correo" [disabled]="true"></ion-input>
+		</ion-item>
+
+		<!-- Estado -->
+		<ion-item class="ion-margin-top">
+			<ion-label>Estado</ion-label>
+			<ion-select formControlName="estado">
+				<ion-select-option *ngFor="let estado of estados" [value]="estado.value">
+					{{ estado.label }}
+				</ion-select-option>
+			</ion-select>
+		</ion-item>
+
+		<!-- Rol -->
+		<ion-item class="ion-margin-top">
+			<ion-label>Rol</ion-label>
+			<ion-select formControlName="rol">
+				<ion-select-option *ngFor="let rol of roles" [value]="rol">
+					{{ rol }}
+				</ion-select-option>
+			</ion-select>
+		</ion-item>
+
+		<!-- Botón para asignar eventos -->
+		<ion-item class="ion-margin-top">
+			<ion-label>Eventos asignados</ion-label>
+			<ion-button slot="end" size="small" (click)="seleccionarEventos()">
+				Asignar eventos
+			</ion-button>
+		</ion-item>
+
+		<!-- Lista de eventos asignados con ubicaciones y botones -->
+		<ion-list *ngIf="selectedEvents.length > 0" class="ion-margin-top">
+			<ion-label class="section-title">Eventos asignados y ubicaciones</ion-label>
+			<div *ngFor="let eventoId of selectedEvents" class="event-block">
+				<div class="event-text">
+					<div class="event-title">{{ getNombreEvento(eventoId) }}</div>
+					<div class="event-ubicaciones">
+						Ubicaciones: {{ ubicacionesAsignadasMap.get(eventoId)?.join(', ') || 'No asignadas' }}
+					</div>
+				</div>
+				<div class="event-buttons">
+					<ion-button color="primary" size="small" (click)="editarUbicacionesEvento(eventoId)">Editar
+						ubicaciones</ion-button>
+					<ion-button color="danger" size="small"
+						(click)="eliminarEventoAsignado(eventoId)">Eliminar</ion-button>
+				</div>
+			</div>
+		</ion-list>
+
+
+
+
+
+		<!-- Botón para guardar cambios -->
+		<ion-button expand="block" class="ion-margin-top" (click)="updateUser()">
+			Guardar cambios
+		</ion-button>
+	</form>
+</ion-content>

@@ -1,0 +1,69 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>Usuarios</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-refresher slot="fixed" (ionRefresh)="cargarUsuarios($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+
+  <ion-item>
+    <ion-input
+      placeholder="Buscar nombre o correo"
+      [(ngModel)]="filtro"
+      (ionInput)="filtrarUsuarios()"
+      clearInput>
+    </ion-input>
+  </ion-item>
+
+  <ion-item>
+    <ion-select
+      placeholder="Filtrar por rol"
+      [(ngModel)]="filtroRol"
+      (ionChange)="filtrarUsuarios()"
+      interface="popover">
+      <ion-select-option value="">Todos</ion-select-option>
+      <ion-select-option *ngFor="let rol of rolesDisponibles" [value]="rol">
+        {{ rol }}
+      </ion-select-option>
+    </ion-select>
+  </ion-item>
+
+  <ion-list *ngIf="usuariosFiltrados.length > 0; else sinUsuarios">
+    <ion-item
+      button
+      *ngFor="let usuario of usuariosPaginados"
+      (click)="editarUsuario(usuario)">
+      <ion-avatar slot="start" class="avatar-white-bg">
+        <img src="assets/icon/user.png" alt="Avatar" />
+      </ion-avatar>
+
+      <ion-label>
+        <h2>{{ getDisplayName(usuario) }}</h2>
+        <p>{{ getDisplayEmail(usuario) }}</p>
+        <small>Rol: {{ getDisplayRole(usuario) }}</small>
+      </ion-label>
+    </ion-item>
+  </ion-list>
+
+  <div *ngIf="totalPaginas > 1" style="text-align: center; margin: 10px;">
+    <ion-button size="small" (click)="cambiarPagina(-1)" [disabled]="paginaActual === 1">
+      Anterior
+    </ion-button>
+    <small>Página {{ paginaActual }} de {{ totalPaginas }}</small>
+    <ion-button size="small" (click)="cambiarPagina(1)" [disabled]="paginaActual === totalPaginas">
+      Siguiente
+    </ion-button>
+  </div>
+
+  <ng-template #sinUsuarios>
+    <p style="text-align: center; margin-top: 20px; color: gray;">
+      No hay usuarios registrados.
+    </p>
+  </ng-template>
+</ion-content>
