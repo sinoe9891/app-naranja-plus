@@ -80,8 +80,7 @@ export class ScanInputPage implements OnInit {
   }
 
   private async getUserEmailFromStorage(): Promise<string> {
-    // Probamos varias claves porque actualmente lo guardás inconsistente
-    const usuarioObj = await this.storage.get('usuario'); // {uid,email,rol...}
+    const usuarioObj = await this.storage.get('usuario');
     if (usuarioObj?.email) return String(usuarioObj.email).toLowerCase();
 
     const user = await this.storage.get('user');
@@ -93,6 +92,22 @@ export class ScanInputPage implements OnInit {
     if (email) return String(email).toLowerCase();
 
     return '';
+  }
+
+  /** ✅ NO cambia '-' a '_'  | solo limpia espacios / saltos de línea */
+  private normalizeQr(raw: string): string {
+    if (!raw) return '';
+
+    // 1) trim
+    let out = String(raw).trim();
+
+    // 2) algunos scanners meten \n o espacios al final
+    out = out.replace(/[\r\n\t ]+/g, '');
+
+    // 3) Firestore docId NO puede llevar "/" porque rompe la ruta
+    out = out.replace(/\//g, '');
+
+    return out;
   }
 
   irAtras(ev: Event) {
@@ -114,7 +129,7 @@ export class ScanInputPage implements OnInit {
 
     this.eventname = await this.scannerService.getEventoNombre(this.idevento);
 
-    // (Opcional) Validar que el evento exista (nuevo path)
+    // Validar evento exista (nuevo path)
     const eventoDocSnap = await getDoc(doc(this.firestore, 'events', this.idevento));
     if (!eventoDocSnap.exists()) {
       await this.presentAlert('Evento inválido', 'No se encontró el evento seleccionado.');
@@ -127,8 +142,9 @@ export class ScanInputPage implements OnInit {
   }
 
   onTextoChange() {
-    // Mantengo tu sanitizado (tu QR trae "_" y letras/números)
-    this.texto = this.texto.replace(/[^a-zA-Z0-9_]/g, '_');
+    // ✅ Antes: reemplazaba "-" por "_"
+    // ✅ Ahora: deja el QR tal cual y solo lo normaliza (trim, quita \n, etc.)
+    this.texto = this.normalizeQr(this.texto);
     this.textoChange$.next(this.texto);
   }
 
@@ -152,13 +168,19 @@ export class ScanInputPage implements OnInit {
       this.scannerService.eventId = this.idevento;
 
       const ok = this.modoBanda
-        ? await this.scannerService.verifyBandCode({ qrData: this.texto, evento: this.idevento, usuario: correo })
-        : await this.scannerService.verifyCode({ qrData: this.texto, evento: this.idevento, usuario: correo });
+        ? await this.scannerService.verifyBandCode({
+            qrData: this.texto,
+            evento: this.idevento,
+            usuario: correo
+          })
+        : await this.scannerService.verifyCode({
+            qrData: this.texto,
+            evento: this.idevento,
+            usuario: correo
+          });
 
-      // siempre vamos a resultado (como tu flujo actual)
       this.router.navigateByUrl('/resultado');
 
-      // si querés: si falla, limpiar input
       if (!ok) this.texto = '';
     } catch (e) {
       console.error(e);
